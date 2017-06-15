@@ -1,0 +1,22 @@
+type User {
+  id: ID
+  email: String!
+}
+
+type Endereco {
+  id: ID
+  user: User!
+  street: String!
+  number: Int!
+}
+
+type Query {
+  user(id: ID!): User
+}
+
+type Mutation {
+  createUser(email: String!): User
+  removeUser(id: ID!): Boolean
+  createEndereco(user: ID!, street: String!, number: Int!): Endereco
+  removeEndereco(id: ID!): Boolean
+}
