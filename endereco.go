@@ -64,7 +64,7 @@ func GetEnderecoByIDAndUser(id, userID int) (*Endereco, error) {
 // GetEnderecosForUser function
 func GetEnderecosForUser(id int) ([]*Endereco, error) {
 	rows, err := db.Query(`
-		SELECT e.id, e.street, e.number
+		SELECT e.id, e.user_id, e.street, e.number
 		FROM enderecos AS e
 		WHERE e.user_id = $1
 	`, id)
@@ -75,14 +75,15 @@ func GetEnderecosForUser(id int) ([]*Endereco, error) {
 	var (
 		enderecos = []*Endereco{}
 		i         int
+		userID    int
 		street    string
 		number    int
 	)
 	for rows.Next() {
-		if err = rows.Scan(&i, &street, &number); err != nil {
+		if err = rows.Scan(&i, &userID, &street, &number); err != nil {
 			return nil, err
 		}
-		enderecos = append(enderecos, &Endereco{ID: id, UserID: id, Street: street, Number: number})
+		enderecos = append(enderecos, &Endereco{ID: i, UserID: userID, Street: street, Number: number})
 	}
 	return enderecos, nil
 }

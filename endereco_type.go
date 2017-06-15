@@ -19,6 +19,15 @@ var EnderecoType = graphql.NewObject(graphql.ObjectConfig{
 				return nil, nil
 			},
 		},
+		"user_id": &graphql.Field{
+			Type: graphql.NewNonNull(graphql.ID),
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				if endereco, ok := p.Source.(*Endereco); ok == true {
+					return endereco.UserID, nil
+				}
+				return nil, nil
+			},
+		},
 		"street": &graphql.Field{
 			Type: graphql.NewNonNull(graphql.String),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
